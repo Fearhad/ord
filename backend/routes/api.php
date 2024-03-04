@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +18,11 @@ use Illuminate\Support\Facades\Route;
 // only routes that are not protected by sanctum
 Route::controller(AuthController::class)->group(function() {
     Route::post('/register', 'register');
-    Route::post('/login', 'login')
-})
+    Route::post('/login', 'login');
+});
+
+// routes that are protected by sanctum
+Route::middleware('auth:sanctum')->group(function() {
+    //auth
+    Route::post('logout', [AuthController::class, 'logout']);
+});
